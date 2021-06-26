@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HBManager</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hb_manager">HB MANAGER</string>
+    <string name="logo_background">logo background</string>
+    <string name="gradiente_background">gradiente background</string>
 </resources>
