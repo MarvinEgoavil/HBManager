@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "300825897093",
+    "project_id": "hbmanager-ef975",
+    "storage_bucket": "hbmanager-ef975.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300825897093:android:686157c5293ce13c60a1ec",
+        "android_client_info": {
+          "package_name": "com.example.hbmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300825897093-39qf1a8ik5n2lohp8c2sr4br7mnsqtde.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hbmanager",
+            "certificate_hash": "3833d7d9501ad4767a52543498af46ba92dcaae0"
+          }
+        },
+        {
+          "client_id": "300825897093-5091vtgrkeqstvjntb1dr3mt62l9f8c0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfTBLQFkNMrYkQmSoorJOLKVG5CgP0Q4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300825897093-5091vtgrkeqstvjntb1dr3mt62l9f8c0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

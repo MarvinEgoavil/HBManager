@@ -1,33 +1,36 @@
 package com.example.hbmanager.fragments.fragmentsEntrada
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.hbmanager.R
+import com.example.hbmanager.databinding.FragmentForgetBinding
+import com.google.firebase.auth.FirebaseAuth
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ForgetFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ForgetFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding: FragmentForgetBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var textUser: EditText
+
+    private lateinit var btnSend: Button
+    private lateinit var mAuth: FirebaseAuth
+
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -35,26 +38,47 @@ class ForgetFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forget, container, false)
+        _binding = FragmentForgetBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ForgetFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ForgetFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        textUser = binding.etForgetEmail
+        btnSend = binding.btnEnviar
+
+        progressBar = binding.progressBar3
+        mAuth = FirebaseAuth.getInstance()
+
+        btnSend.setOnClickListener {
+            send()
+        }
+    }
+
+    fun send() {
+        val email = textUser.text.toString()
+
+        if (!TextUtils.isEmpty(email)) {
+            mAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    progressBar.visibility = View.VISIBLE
+                    findNavController().navigate(R.id.action_forgetFragment_to_loginFragment)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al enviar el Email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
+
             }
+
+
+        }
+
     }
 }
