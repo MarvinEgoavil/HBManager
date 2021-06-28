@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class AgendaFragment : Fragment() {
+
+    //vista
     private lateinit var ivLogout:ImageView
     private lateinit var btnAgregar:Button
     private lateinit var recyclerAgenda:RecyclerView

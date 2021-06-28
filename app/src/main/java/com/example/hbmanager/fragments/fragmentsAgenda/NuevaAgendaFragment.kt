@@ -34,6 +34,7 @@ class NuevaAgendaFragment : Fragment() {
     private var fechaSeleccionada: String? = null
 
     lateinit var filePath: Uri
+    //vista
     private lateinit var etNombre: EditText
     private lateinit var ivFoto: ImageView
     private lateinit var etFechaNacimiento: EditText
