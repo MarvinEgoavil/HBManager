@@ -48,5 +48,21 @@
         android:id="@+id/agendaFragment"
         android:name="com.example.hbmanager.fragments.fragmentsAgenda.AgendaFragment"
         android:label="fragment_agenda"
-        tools:layout="@layout/fragment_agenda" />
+        tools:layout="@layout/fragment_agenda" >
+        <action
+            android:id="@+id/action_agendaFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_agendaFragment_to_nuevaAgendaFragment"
+            app:destination="@id/nuevaAgendaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nuevaAgendaFragment"
+        android:name="com.example.hbmanager.fragments.fragmentsAgenda.NuevaAgendaFragment"
+        android:label="fragment_nueva_agenda"
+        tools:layout="@layout/fragment_nueva_agenda" >
+        <action
+            android:id="@+id/action_nuevaAgendaFragment_to_agendaFragment"
+            app:destination="@id/agendaFragment" />
+    </fragment>
 </navigation>

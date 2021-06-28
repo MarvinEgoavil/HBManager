@@ -1,34 +1,32 @@
 package com.example.hbmanager.fragments.fragmentsAgenda
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hbmanager.R
+import com.example.hbmanager.clases.Usuario
+import com.example.hbmanager.utils.AgendaAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AgendaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AgendaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var ivLogout:ImageView
+    private lateinit var btnAgregar:Button
+    private lateinit var recyclerAgenda:RecyclerView
+    private lateinit var progresCargando:ProgressBar
+    var agendaList = ArrayList<Usuario>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +36,69 @@ class AgendaFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_agenda, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AgendaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AgendaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ivLogout = view.findViewById(R.id.iv_Logout)
+        ivLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            findNavController().navigate(R.id.action_agendaFragment_to_loginFragment)
+        }
+        progresCargando = view.findViewById(R.id.progresCargando)
+        btnAgregar = view.findViewById(R.id.btnAgregar)
+        recyclerAgenda = view.findViewById(R.id.recycler_agenda)
+        recyclerAgenda.layoutManager = LinearLayoutManager(activity)
+        recyclerAgenda.setHasFixedSize(true)
+
+        btnAgregar.setOnClickListener{
+            findNavController().navigate(R.id.action_agendaFragment_to_nuevaAgendaFragment)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        listarContactos()
+    }
+
+    fun listarContactos(){
+
+        progresCargando.visibility = View.VISIBLE
+        recyclerAgenda.visibility = View.GONE
+
+        agendaList = ArrayList()
+
+        val shared = requireActivity().getSharedPreferences("SharedHBManager",0)
+
+        val ref = FirebaseDatabase.getInstance().reference.child("usuarios")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    //it.toString()
+                    Log.d("RegistroActivity","cuenta:: ${shared.getString("cuenta","")}")
+                    Log.d("RegistroActivity","IT: $it")
+                    val usuario = it.getValue(Usuario::class.java)
+                    if (usuario != null && usuario.cuenta == shared.getString("cuenta","")) {
+                        agendaList.add(usuario)
+                    }
+                    recyclerAgenda.adapter = AgendaAdapter(agendaList)
+                    recyclerAgenda.visibility = View.VISIBLE
+                    progresCargando.visibility = View.GONE
                 }
             }
+            override fun onCancelled(error: DatabaseError) {
+                recyclerAgenda.visibility = View.GONE
+                progresCargando.visibility = View.GONE
+            }
+        })
+
+
+
     }
+
+
+    class Usuario2 (val idUsuario:String,val nombres:String,val fechaNacimiento:String,val urlFoto:String){
+        constructor() :this("","","","")
+    }
+
+
+
 }

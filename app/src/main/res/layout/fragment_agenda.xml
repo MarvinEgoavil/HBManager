@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.fragmentsAgenda.AgendaFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/toolbar_agenda"
+        android:id="@+id/include_toolbar_agenda"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_below="@+id/include_toolbar_agenda"
+        android:orientation="vertical"
+        android:padding="20sp"
+        android:gravity="center_horizontal">
+        <Button
+            android:id="@+id/btnAgregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mi contactos:"
+            android:textSize="18sp"
+            android:layout_marginTop="15sp"
+            android:textColor="@color/purple_500"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_agenda"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5sp"
+            android:orientation="vertical"
+            android:visibility="gone"/>
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/progresCargando"
+            android:layout_width="80sp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0sp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
